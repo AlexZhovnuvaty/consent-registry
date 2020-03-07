@@ -19,13 +19,11 @@ message DataPayload {
 message Consumer {
     string public_key = 1;
     string name = 2;
-    string surname = 3;
 }
 
 message Academic {
     string public_key = 1;
     string name = 2;
-    string surname = 3;
 }
 
 message ConsumerData {
@@ -45,5 +43,4 @@ message ConsumerDataExt {
     string field3=5;
     string event_time=6;
     string name=7;
-    string surname=8;
 }

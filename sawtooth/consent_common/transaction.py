@@ -148,7 +148,8 @@ def request_consumer_consent(txn_signer, batch_signer, consumer_pkey):
 
     access = ActionOnAccess(
         dest_pkey=academic_pkey,
-        src_pkey=consumer_pkey
+        src_pkey=consumer_pkey,
+        action_type=ActionOnAccess.REQUESTED
     )
 
     payload = ConsentPayload(
@@ -172,7 +173,8 @@ def approve_academic_request(txn_signer, batch_signer, academic_pkey):
 
     access = ActionOnAccess(
         dest_pkey=academic_pkey,
-        src_pkey=consumer_pkey
+        src_pkey=consumer_pkey,
+        action_type=ActionOnAccess.APPROVED
     )
 
     payload = ConsentPayload(
@@ -196,7 +198,8 @@ def decline_academic_request(txn_signer, batch_signer, academic_pkey):
 
     access = ActionOnAccess(
         dest_pkey=academic_pkey,
-        src_pkey=consumer_pkey
+        src_pkey=consumer_pkey,
+        action_type=ActionOnAccess.DECLINED
     )
 
     payload = ConsentPayload(

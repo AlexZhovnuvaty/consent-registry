@@ -71,15 +71,14 @@ def _batch_header(batch_signer, transactions):
     return batch_header_bytes, signature
 
 
-def create_academic(txn_signer, batch_signer, name, surname):
+def create_academic(txn_signer, batch_signer, name):
     academic_pkey = txn_signer.get_public_key().as_hex()
     LOGGER.debug('academic_pkey: ' + str(academic_pkey))
     academic_hex = helper.make_academic_address(academic_pkey=academic_pkey)
     LOGGER.debug('academic_hex: ' + str(academic_hex))
     academic = Academic(
         public_key=academic_pkey,
-        name=name,
-        surname=surname)
+        name=name)
 
     payload = ConsumerDataPayload(
         payload_type=ConsumerDataPayload.PAYLOAD_CREATE_ACADEMIC,
@@ -95,15 +94,14 @@ def create_academic(txn_signer, batch_signer, name, surname):
         batch_signer=batch_signer)
 
 
-def create_consumer(txn_signer, batch_signer, name, surname):
+def create_consumer(txn_signer, batch_signer, name):
     consumer_pkey = txn_signer.get_public_key().as_hex()
     LOGGER.debug('consumer_pkey: ' + str(consumer_pkey))
     inputs = outputs = helper.make_consumer_address(consumer_pkey=consumer_pkey)
     LOGGER.debug('inputs: ' + str(inputs))
     consumer = Consumer(
         public_key=consumer_pkey,
-        name=name,
-        surname=surname)
+        name=name)
 
     payload = ConsumerDataPayload(
         payload_type=ConsumerDataPayload.PAYLOAD_CREATE_CONSUMER,
