@@ -99,7 +99,7 @@ def create_consumer_client(txn_signer, batch_signer):
                    Permission(type=Permission.ADD_DATA),
                    Permission(type=Permission.READ_OWN_DATA),
                    Permission(type=Permission.READ_DATA),
-                   Permission(type=Permission.GET_OWN_REQUESTS),
+                   Permission(type=Permission.GET_REQUESTS_LIST),
                    Permission(type=Permission.APPROVE_CONSENT),
                    Permission(type=Permission.DECLINE_CONSENT),
                    Permission(type=Permission.REVOKE_CONSENT)
@@ -110,6 +110,7 @@ def create_consumer_client(txn_signer, batch_signer):
 def create_academic_client(txn_signer, batch_signer):
     permissions = [Permission(type=Permission.GET_CONSUMERS_LIST),
                    Permission(type=Permission.GET_ACADEMICS_LIST),
+                   Permission(type=Permission.GET_REQUESTS_LIST),
                    Permission(type=Permission.REQUEST_CONSENT),
                    Permission(type=Permission.READ_DATA)
                    ]

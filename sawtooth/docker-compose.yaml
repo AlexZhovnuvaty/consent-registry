@@ -13,12 +13,12 @@ services:
     image: data-tp
     container_name: data-processor
     volumes:
-      - ./:/project/consent_registry
+      - .:/project/consent_registry
     depends_on:
       - consent-processor
     command: |
       bash -c "
-        sleep 1 &&
+        sleep 3 &&
         echo '--- Building data-tp by docker-compose---\n' &&
         init-data-tp.sh &&
         data-tp -v -C tcp://validator:4004 &&
@@ -36,10 +36,10 @@ services:
     image: consent-tp
     container_name: consent-processor
     volumes:
-      - ./:/project/consent_registry
+      - .:/project/consent_registry
     command: |
       bash -c "
-        sleep 1 &&
+        sleep 3 &&
         echo '--- Building consent-tp by docker-compose---\n' &&
         init-consent-tp.sh &&
         consent-tp -v -C tcp://validator:4004 &&
@@ -113,24 +113,24 @@ services:
       - validator
     entrypoint: devmode-engine-rust -v -C tcp://validator:5050
 
-  web-app:
-    build:
-      context: .
-      dockerfile: web/Dockerfile
-    image: web-app
-    user: "node"
-    container_name: web-app
-    volumes:
-      - ./web:/home/node/app
-      - /home/node/app/node_modules
-    expose:
-      - 8080
-    ports:
-      - '8041:8080'
-    depends_on:
-      - rest-api
-    command: |
-      sh -c "
-        echo '--- Starting web-app by docker-compose---' &&
-        npm start
-      "
+#  web-app:
+#    build:
+#      context: .
+#      dockerfile: web/Dockerfile
+#    image: web-app
+#    user: "node"
+#    container_name: web-app
+#    volumes:
+#      - ./web:/home/node/app
+#      - /home/node/app/node_modules
+#    expose:
+#      - 8080
+#    ports:
+#      - '8041:8080'
+#    depends_on:
+#      - rest-api
+#    command: |
+#      sh -c "
+#        echo '--- Starting web-app by docker-compose---' &&
+#        npm start
+#      "

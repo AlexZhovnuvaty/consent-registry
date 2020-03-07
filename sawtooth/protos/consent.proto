@@ -47,7 +47,7 @@ message Permission {
       ADD_DATA = 101;
       READ_OWN_DATA = 102;
       READ_DATA = 103;
-      GET_OWN_REQUESTS = 104;
+      GET_REQUESTS_LIST = 104;
       APPROVE_CONSENT = 105;
       DECLINE_CONSENT = 106;
       REVOKE_CONSENT = 107;

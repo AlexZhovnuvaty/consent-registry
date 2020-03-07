@@ -34,7 +34,8 @@ RUN apt-get install --fix-missing -y --allow-unauthenticated -q \
     python3-sawtooth-rest-api \
     python3-grpcio-tools \
     python3-sawtooth-cli \
-    python3-sawtooth-signing \
+#    python3-sawtooth-signing \
+    python3-secp256k1 \
 #        cron-apt \
     iputils-ping \
     curl \

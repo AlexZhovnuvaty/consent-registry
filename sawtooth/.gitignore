@@ -202,3 +202,14 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
+/.idea/
+/consent_processor/consent_processor/consent_common/protobuf/
+/data_processor/data_processor/data_common/protobuf/
+/consent_common/protobuf/
+/data_common/protobuf/
+/rest_api/rest_api/consent_common/protobuf/
+/rest_api/rest_api/data_common/protobuf/
+/rest_api/rest_api/data_common/
+/data_processor/data_processor/data_common/
+/rest_api/rest_api/consent_common/
+/consent_processor/consent_processor/consent_common/

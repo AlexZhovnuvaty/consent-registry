@@ -23,6 +23,6 @@ WORKDIR /project/consent_registry
 ENV PATH $PATH:/project/consent_registry/bin
 
 #CMD ["echo", "$PATH"]
-CMD echo "\033[0;32m--- 2Building consent-tp ---\n\033[0m" \
-    && init-consent-tp.sh \
-    && consent-tp -v -C tcp://validator:4004
+#CMD echo "\033[0;32m--- 2Building consent-tp ---\n\033[0m" \
+#    && init-consent-tp.sh \
+#    && consent-tp -v -C tcp://validator:4004
