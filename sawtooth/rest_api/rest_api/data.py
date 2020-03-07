@@ -75,14 +75,13 @@ async def get_all_data(request):
 async def add_data(request):
     """Updates auth information for the authorized account"""
     consumer_pkey = general.get_request_key_header(request)
-    required_fields = ['id', 'field1', 'field2', 'field3', 'event_time']
+    required_fields = ['id', 'field1', 'field2', 'field3']
     general.validate_fields(required_fields, request.json)
 
     data_id = request.json.get('id')
     field1 = request.json.get('field1')
     field2 = request.json.get('field2')
     field3 = request.json.get('field3')
-    event_time = request.json.get('event_time')
 
     client_signer = general.get_signer(request, consumer_pkey)
 
@@ -90,11 +89,9 @@ async def add_data(request):
         txn_signer=client_signer,
         batch_signer=client_signer,
         uid=data_id,
-        client_pkey=consumer_pkey,
         field1=field1,
         field2=field2,
-        field3=field3,
-        event_time=event_time
+        field3=field3
     )
 
     batch, batch_id = data_transaction.make_batch_and_id([data_txn], client_signer)

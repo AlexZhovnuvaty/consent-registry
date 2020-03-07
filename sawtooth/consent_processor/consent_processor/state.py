@@ -1,5 +1,5 @@
 from consent_processor.consent_common import helper
-from consent_processor.consent_common.protobuf import consent_payload_pb2
+from consent_processor.consent_common.protobuf import consent_pb2
 
 import logging
 
@@ -40,7 +40,7 @@ class ConsentState(object):
             access_hex,
             timeout=self.TIMEOUT)
         if state_entries:
-            access = consent_payload_pb2.ActionOnAccess()
+            access = consent_pb2.ActionOnAccess()
             access.ParseFromString(state_entries[0].data)
             return access
         return None
@@ -49,10 +49,10 @@ class ConsentState(object):
         consent_address = helper.make_consent_address(dest_pkey=dest_pkey, src_pkey=src_pkey)
         consent_address_vice_versa = helper.make_consent_address(dest_pkey=src_pkey, src_pkey=dest_pkey)
 
-        consent = consent_payload_pb2.ActionOnAccess()
+        consent = consent_pb2.ActionOnAccess()
         consent.dest_pkey = dest_pkey
         consent.src_pkey = src_pkey
-        consent.action_type = consent_payload_pb2.ActionOnAccess.REQUESTED
+        consent.action_type = consent_pb2.ActionOnAccess.REQUESTED
 
         state_data = consent.SerializeToString()
         self._context.set_state(
@@ -66,10 +66,10 @@ class ConsentState(object):
         consent_address_vice_versa = \
             helper.make_consent_address(dest_pkey=src_pkey, src_pkey=dest_pkey)
 
-        consent = consent_payload_pb2.ActionOnAccess()
+        consent = consent_pb2.ActionOnAccess()
         consent.dest_pkey = dest_pkey
         consent.src_pkey = src_pkey
-        consent.action_type = consent_payload_pb2.ActionOnAccess.APPROVED
+        consent.action_type = consent_pb2.ActionOnAccess.APPROVED
 
         state_data = consent.SerializeToString()
         self._context.set_state(
@@ -83,10 +83,10 @@ class ConsentState(object):
         consent_address_vice_versa = \
             helper.make_consent_address(dest_pkey=src_pkey, src_pkey=dest_pkey)
 
-        consent = consent_payload_pb2.ActionOnAccess()
+        consent = consent_pb2.ActionOnAccess()
         consent.dest_pkey = dest_pkey
         consent.src_pkey = src_pkey
-        consent.action_type = consent_payload_pb2.ActionOnAccess.DECLINED
+        consent.action_type = consent_pb2.ActionOnAccess.DECLINED
 
         state_data = consent.SerializeToString()
         self._context.set_state(

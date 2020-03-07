@@ -14,9 +14,6 @@
 # ------------------------------------------------------------------------------
 import getpass
 import os
-import sys
-
-import requests as req
 from sawtooth_signing import ParseError, CryptoFactory
 from sawtooth_signing.secp256k1 import Secp256k1PrivateKey
 from rest_api.errors import ApiBadRequest, ApiForbidden

@@ -6,7 +6,7 @@ from sawtooth_sdk.protobuf.batch_pb2 import BatchHeader, Batch
 from sawtooth_sdk.protobuf.transaction_pb2 import Transaction, TransactionHeader
 
 from . import helper as helper
-from .protobuf.consent_payload_pb2 import Permission, ConsentPayload, Client, ActionOnAccess
+from .protobuf.consent_pb2 import Permission, ConsentPayload, Client, ActionOnAccess
 
 logging.basicConfig(level=logging.DEBUG)
 LOGGER = logging.getLogger(__name__)

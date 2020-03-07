@@ -37,18 +37,22 @@ class ConsentTransactionHandler(TransactionHandler):
 
             consent_state = ConsentState(context)
 
-            if consent_payload.is_sign_inform_consent():
-                LOGGER.debug("is_sign_inform_consent")
-                access = consent_payload.sign_inform_consent()
-                consent_state.sign_inform_document_consent(dest_pkey=access.dest_pkey, src_pkey=access.src_pkey)
-            elif consent_payload.is_decline_inform_consent():
-                LOGGER.debug("is_decline_inform_consent")
-                access = consent_payload.decline_inform_consent()
-                consent_state.decline_inform_consent(dest_pkey=access.dest_pkey, src_pkey=access.src_pkey)
-            elif consent_payload.is_request_inform_consent():
-                LOGGER.debug("is_request_inform_consent")
-                access = consent_payload.request_inform_consent()
-                consent_state.request_inform_document_consent(dest_pkey=access.dest_pkey, src_pkey=access.src_pkey)
+            if consent_payload.is_request_consent():
+                LOGGER.debug("is_request_consent")
+                access = consent_payload.request_consent()
+                consent_state.request_consent(dest_pkey=access.dest_pkey, src_pkey=access.src_pkey)
+            elif consent_payload.is_decline_consent():
+                LOGGER.debug("is_decline_consent")
+                access = consent_payload.decline_consent()
+                consent_state.decline_consent(dest_pkey=access.dest_pkey, src_pkey=access.src_pkey)
+            elif consent_payload.is_approve_consent():
+                LOGGER.debug("is_approve_consent")
+                access = consent_payload.approve_consent()
+                consent_state.approve_consent(dest_pkey=access.dest_pkey, src_pkey=access.src_pkey)
+            elif consent_payload.is_revoke_consent():
+                LOGGER.debug("is_revoke_consent")
+                access = consent_payload.revoke_consent()
+                consent_state.revoke_consent(dest_pkey=access.dest_pkey, src_pkey=access.src_pkey)
             elif consent_payload.is_create_client():
                 LOGGER.debug("is_create_client")
                 client = consent_payload.create_client()

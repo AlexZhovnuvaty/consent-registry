@@ -54,7 +54,7 @@ async def register_consumer(request):
         batch_signer=consumer_signer
     )
 
-    consumer_txn = data_transaction.create_hospital(
+    consumer_txn = data_transaction.create_consumer(
         txn_signer=consumer_signer,
         batch_signer=consumer_signer,
         name=name
@@ -116,7 +116,7 @@ async def decline_academic_request(request, academic_pkey):
     decline_request_txn = consent_transaction.decline_academic_request(
         txn_signer=client_signer,
         batch_signer=client_signer,
-        dest_pkey=academic_pkey)
+        academic_pkey=academic_pkey)
 
     batch, batch_id = consent_transaction.make_batch_and_id([decline_request_txn], client_signer)
 
@@ -145,11 +145,11 @@ async def revoke_academic_request(request, academic_pkey):
     revoke_request_txn = consent_transaction.revoke_academic_request(
         txn_signer=client_signer,
         batch_signer=client_signer,
-        dest_pkey=academic_pkey)
+        academic_pkey=academic_pkey)
 
     batch, batch_id = consent_transaction.make_batch_and_id([revoke_request_txn], client_signer)
 
-    await security_messaging.revoke_request(
+    await security_messaging.revoke_consent(
         request.app.config.VAL_CONN,
         request.app.config.TIMEOUT,
         [batch], consumer_key)

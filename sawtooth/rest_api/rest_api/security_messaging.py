@@ -21,7 +21,7 @@ from rest_api.data_common import helper as data_helper
 from rest_api.data_common.protobuf.data_payload_pb2 import Consumer, Academic, ConsumerDataExt
 
 from rest_api.consent_common import helper as consent_helper
-from rest_api.consent_common.protobuf.consent_payload_pb2 import Client, Permission, ActionOnAccess
+from rest_api.consent_common.protobuf.consent_pb2 import Client, Permission, ActionOnAccess
 
 from rest_api import messaging
 from rest_api.errors import ApiForbidden, ApiUnauthorized, ApiBadRequest

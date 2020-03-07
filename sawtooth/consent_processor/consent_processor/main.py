@@ -60,12 +60,6 @@ def main(args=None):
             log_configuration(log_config=log_config)
         # else:
         #     log_dir = get_log_dir()
-
-            # use the transaction consent_processor zmq identity for filename
-            # log_configuration(
-            # log_dir=log_dir,
-            # name="healthcare-" + str(consent_processor.zmq_id)[2:-1])
-
         init_console_logging(verbose_level=opts.verbose)
 
         handler = ConsentTransactionHandler(TP_PREFFIX_HEX6)

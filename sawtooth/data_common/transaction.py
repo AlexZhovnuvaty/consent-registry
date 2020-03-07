@@ -3,9 +3,8 @@ import random
 import logging
 from sawtooth_sdk.protobuf.batch_pb2 import BatchHeader, Batch
 from sawtooth_sdk.protobuf.transaction_pb2 import Transaction, TransactionHeader
-
 from . import helper as helper
-from .protobuf.data_payload_pb2 import ConsumerData, ConsumerDataPayload, Academic, Consumer
+from .protobuf.data_payload_pb2 import Academic, Consumer, DataPayload, ConsumerData
 
 logging.basicConfig(level=logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -80,8 +79,8 @@ def create_academic(txn_signer, batch_signer, name):
         public_key=academic_pkey,
         name=name)
 
-    payload = ConsumerDataPayload(
-        payload_type=ConsumerDataPayload.PAYLOAD_CREATE_ACADEMIC,
+    payload = DataPayload(
+        payload_type=DataPayload.PAYLOAD_CREATE_ACADEMIC,
         create_academic=academic)
 
     LOGGER.debug('payload: ' + str(payload))
@@ -103,8 +102,8 @@ def create_consumer(txn_signer, batch_signer, name):
         public_key=consumer_pkey,
         name=name)
 
-    payload = ConsumerDataPayload(
-        payload_type=ConsumerDataPayload.PAYLOAD_CREATE_CONSUMER,
+    payload = DataPayload(
+        payload_type=DataPayload.PAYLOAD_CREATE_CONSUMER,
         create_consumer=consumer)
 
     return _make_transaction(
@@ -133,8 +132,8 @@ def add_data(txn_signer, batch_signer, uid, field1, field2, field3):
 
     LOGGER.debug('data: ' + str(data))
 
-    payload = ConsumerDataPayload(
-        payload_type=ConsumerData.PAYLOAD_ADD_DATA,
+    payload = DataPayload(
+        payload_type=DataPayload.PAYLOAD_ADD_DATA,
         add_data=data)
 
     return _make_transaction(

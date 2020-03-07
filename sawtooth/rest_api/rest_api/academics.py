@@ -85,15 +85,15 @@ async def register_academic(request):
                          headers=general.get_response_headers())
 
 
-@ACADEMICS_BP.get('academic/request_consent/<dest_pkey>')
-async def request_consent(request, dest_pkey):
+@ACADEMICS_BP.get('academic/request_consent/<consumer_pkey>')
+async def request_consent(request, consumer_pkey):
     """Updates auth information for the authorized account"""
     client_key = general.get_request_key_header(request)
     client_signer = general.get_signer(request, client_key)
-    request_consent_txn = consent_transaction.request_consent(
+    request_consent_txn = consent_transaction.request_consumer_consent(
         txn_signer=client_signer,
         batch_signer=client_signer,
-        dest_pkey=dest_pkey)
+        consumer_pkey=consumer_pkey)
 
     batch, batch_id = consent_transaction.make_batch_and_id([request_consent_txn], client_signer)
 

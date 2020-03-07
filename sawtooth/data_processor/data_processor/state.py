@@ -1,5 +1,5 @@
 from data_processor.data_common import helper
-from data_processor.data_common.protobuf.ehr_payload_pb2 import Consumer, Academic, ConsumerData
+from data_processor.data_common.protobuf.data_payload_pb2 import Consumer, Academic, ConsumerData
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
