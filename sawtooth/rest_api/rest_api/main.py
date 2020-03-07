@@ -185,8 +185,7 @@ def main():
     zmq = ZMQEventLoop()
     asyncio.set_event_loop(zmq)
     server = app.create_server(
-        host=app.config.HOST, port=app.config.PORT, debug=app.config.DEBUG)
-    # host=app.config.HOST, port=app.config.PORT, debug=app.config.DEBUG, return_asyncio_server=True)
+        host=app.config.HOST, port=app.config.PORT, debug=app.config.DEBUG, return_asyncio_server=True)
     loop = asyncio.get_event_loop()
     asyncio.ensure_future(open_connections(app))
     asyncio.ensure_future(server)

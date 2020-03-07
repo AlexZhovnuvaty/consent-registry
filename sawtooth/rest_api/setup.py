@@ -35,7 +35,7 @@ setup(
         'requests',
         'sanic',
         'sanic_cors',
-        # 'PyYAML',
+        'pyzmq',
     ],
     # cmdclass={
     #     'clean': CleanCommand,
