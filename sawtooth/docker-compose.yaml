@@ -1,0 +1,136 @@
+version: '3'
+
+services:
+
+  data-processor:
+    build:
+      context: .
+      dockerfile: data_processor/Dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    image: data-tp
+    container_name: data-processor
+    volumes:
+      - ./:/project/consent_registry
+    depends_on:
+      - consent-processor
+    command: |
+      bash -c "
+        sleep 1 &&
+        echo '--- Building data-tp by docker-compose---\n' &&
+        init-data-tp.sh &&
+        data-tp -v -C tcp://validator:4004 &&
+        tail -f /dev/null
+               "
+
+  consent-processor:
+    build:
+      context: .
+      dockerfile: consent_processor/Dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    image: consent-tp
+    container_name: consent-processor
+    volumes:
+      - ./:/project/consent_registry
+    command: |
+      bash -c "
+        sleep 1 &&
+        echo '--- Building consent-tp by docker-compose---\n' &&
+        init-consent-tp.sh &&
+        consent-tp -v -C tcp://validator:4004 &&
+        tail -f /dev/null
+               "
+
+  rest-api:
+    build:
+      context: .
+      dockerfile: rest_api/Dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    image: rest-api
+    container_name: rest-api
+    volumes:
+      - .:/project/consent_registry
+    ports:
+      - '8040:8000'
+    depends_on:
+      - validator
+      - data-processor
+    command: |
+      bash -c "
+        sleep 3 &&
+        echo '--- Building rest-api by docker-compose---' &&
+        init-data-rest-api.sh &&
+        rest-api --host rest-api --validator tcp://validator:4004 &&
+        tail -f /dev/null
+               "
+
+  settings-tp:
+    image: hyperledger/sawtooth-settings-tp:1.2.4
+    container_name: sawtooth-settings-tp
+    depends_on:
+      - validator
+    command: settings-tp -vv --connect tcp://validator:4004
+
+  validator:
+    image: hyperledger/sawtooth-validator:1.2.4
+    container_name: sawtooth-validator
+    expose:
+      - 4004
+    ports:
+      - '4040:4004'
+    command: |
+      bash -c "
+        if [ ! -f /etc/sawtooth/keys/validator.priv ]; then
+          sawadm keygen &&
+          sawtooth keygen my_key &&
+          sawset genesis -k /root/.sawtooth/keys/my_key.priv &&
+          sawset proposal create \
+            -k /root/.sawtooth/keys/my_key.priv \
+            sawtooth.consensus.algorithm.name=Devmode \
+            sawtooth.consensus.algorithm.version=0.1 \
+            -o config.batch &&
+          sawadm genesis config-genesis.batch config.batch
+        fi;
+        sawtooth-validator -vv \
+          --endpoint tcp://validator:8800 \
+          --bind component:tcp://eth0:4004 \
+          --bind network:tcp://eth0:8800 \
+          --bind consensus:tcp://eth0:5050
+      "
+
+  devmode-engine:
+    image: hyperledger/sawtooth-devmode-engine-rust:1.2
+    container_name: sawtooth-devmode-engine-rust-default
+    depends_on:
+      - validator
+    entrypoint: devmode-engine-rust -v -C tcp://validator:5050
+
+  web-app:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    image: web-app
+    user: "node"
+    container_name: web-app
+    volumes:
+      - ./web:/home/node/app
+      - /home/node/app/node_modules
+    expose:
+      - 8080
+    ports:
+      - '8041:8080'
+    depends_on:
+      - rest-api
+    command: |
+      sh -c "
+        echo '--- Starting web-app by docker-compose---' &&
+        npm start
+      "

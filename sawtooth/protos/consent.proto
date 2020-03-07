@@ -8,6 +8,7 @@ message ConsentPayload {
         PAYLOAD_APPROVE_CONSENT = 2;
         PAYLOAD_REQUEST_CONSENT = 3;
         PAYLOAD_DECLINE_CONSENT = 4;
+        PAYLOAD_REVOKE_CONSENT = 5;
     }
 
     PayloadType payload_type = 1;
@@ -16,6 +17,7 @@ message ConsentPayload {
     ActionOnAccess approve_consent = 3;
     ActionOnAccess request_consent = 4;
     ActionOnAccess decline_consent = 5;
+    ActionOnAccess revoke_consent = 6;
 }
 
 message ActionOnAccess {
@@ -41,7 +43,7 @@ message Permission {
       DECLINE_CONSENT = 106;
       REVOKE_CONSENT = 107;
 
-      READ_ACADEMICS = 200;
+      GET_ACADEMICS_LIST = 200;
       REQUEST_CONSENT = 201;
 
       READ_DATA_TRACE = 300;
