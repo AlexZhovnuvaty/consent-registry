@@ -21,8 +21,17 @@ message ConsentPayload {
 }
 
 message ActionOnAccess {
+
+    enum ActionType {
+        TYPE_UNSET = 0;
+        REQUESTED = 1;
+        APPROVED = 2;
+        DECLINED = 3;
+    }
+
     string dest_pkey = 1;
     string src_pkey = 2;
+    ActionType action_type = 3;
 }
 
 message Client {
