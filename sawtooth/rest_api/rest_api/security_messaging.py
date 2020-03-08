@@ -334,11 +334,13 @@ async def get_data(conn, client_key):
         LOGGER.debug('has READ_OWN_DATA permission: ' + str(client_key))
         data_list_resources = await messaging.get_state_by_address(conn, data_list_address)
         for entity in data_list_resources.entries:
+            entity_data_decode = entity.data.decode()
+            LOGGER.debug('entity_data_decode: ' + str(entity_data_decode))
             cde = ConsumerDataExt()
             cde.ParseFromString(entity.data)
+            LOGGER.debug('data: ' + str(cde))
 
             data_list[entity.address] = cde
-            LOGGER.debug('data: ' + str(cde))
         return data_list
     # elif Permission(type=Permission.READ_OWN_PATIENT_DATA) in client.permissions:
     #     ehr_list_ids_address = ehr_helper.make_ehr_list_by_patient_address(client_key)

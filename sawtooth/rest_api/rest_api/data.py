@@ -15,7 +15,6 @@
 from sanic import Blueprint
 from sanic import response
 
-from rest_api.consent_common.protobuf.consent_pb2 import ActionOnAccess
 from rest_api.data_common import transaction as data_transaction
 from rest_api import general, security_messaging
 from rest_api.errors import ApiBadRequest, ApiInternalError
@@ -55,7 +54,7 @@ async def consent_request_list(request):
         consent_list_json.append({
             'src_pkey': con.src_pkey,
             'dest_pkey': con.dest_pkey,
-            'action_type': ActionOnAccess(con.action_type).name
+            'action_type': con.action_type.name
         })
 
     return response.json(body={'data': consent_list_json},
