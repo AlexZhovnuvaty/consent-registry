@@ -17,11 +17,11 @@ module.exports = {
             m("a.user-list-item", {href: "/academic/new/", oncreate: m.route.link}, "New Academic"),
             m("a.user-list-item", {href: "/academic_list/?client_key=" + Client.list['academic'], oncreate: m.route.link}, "Academic List"),
             m("a.user-list-item", "---"),
-            m("a.user-list-item", {href: "/hospital_list/?client_key=" + Client.list['academic'], oncreate: m.route.link}, "Consumer List"),
+            m("a.user-list-item", {href: "/consumer_list/?client_key=" + Client.list['academic'], oncreate: m.route.link}, "Consumer List"),
             m("a.user-list-item", "---"),
             m("a.user-list-item", {href: "/data_list/?client_key=" + Client.list['academic'], oncreate: m.route.link}, "Data List"),
             m("a.user-list-item", "---"),
-            m("a.user-list-item", {href: "/consent_request_list/?client_key=" + Client.list['academic'], oncreate: m.route.link}, "Consent Requests"),
+            m("a.user-list-item", {href: "/academic/consent_request_list/?client_key=" + Client.list['academic'], oncreate: m.route.link}, "Consent Requests"),
         ])
 
     }

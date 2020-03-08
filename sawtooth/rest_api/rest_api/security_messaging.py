@@ -268,8 +268,11 @@ async def get_consent_by_consumer(conn, client_key):
     for entity in consent_resources.entries:
         aoa = ActionOnAccess()
         aoa.ParseFromString(entity.data)
-        consent_list[entity.address] = aoa
-        LOGGER.debug('consent i: ' + str(aoa))
+        if aoa.action_type == ActionOnAccess.APPROVED:
+            consent_list[entity.address] = aoa
+            LOGGER.debug('consent approved i: ' + str(aoa))
+        else:
+            LOGGER.debug('consent not approved i: ' + str(aoa))
     return consent_list
 
 # async def get_shared_ehrs(ehr_conn, consent_conn, investigator_pkey):
@@ -292,23 +295,28 @@ async def get_data(conn, client_key):
     client = await get_client(conn, client_key)
     data_list = {}
     if Permission(type=Permission.READ_DATA) in client.permissions:
-        data_list_address = data_helper.make_data_list_address()
         LOGGER.debug('has READ_DATA permission: ' + str(client_key))
-        # Get Consent
-        # access = await get_consent_by_consumer(conn, client_key)
-        # academic_list = {}
-        # for address, pt in access.items():
-        #     LOGGER.debug('patient access: ' + str(pt))
-        #     patient = await get_patient(ehr_conn, pt.src_pkey)
-        #     patient_list[pt.src_pkey] = patient
-        #
-        data_list_resources = await messaging.get_state_by_address(conn, data_list_address)
-        for entity in data_list_resources.entries:
-            cde = ConsumerDataExt()
-            cde.ParseFromString(entity.data)
+        # Get Consumers with Consent
+        consumers_with_consent = await get_consent_by_consumer(conn, client_key)
+        for address, cn in consumers_with_consent.items():
+            LOGGER.debug('consumer with consent: ' + str(cn))
 
-            data_list[entity.address] = cde
-            LOGGER.debug('data: ' + str(cde))
+            data_list_address = data_helper.make_data_list_by_consumer_address(cn.src_pkey)
+            data_list_resources = await messaging.get_state_by_address(conn, data_list_address)
+            for entity in data_list_resources.entries:
+                cde = ConsumerDataExt()
+                cde.ParseFromString(entity.data)
+
+                data_list[entity.address] = cde
+                LOGGER.debug('data: ' + str(cde))
+
+        # data_list_resources = await messaging.get_state_by_address(conn, data_list_address)
+        # for entity in data_list_resources.entries:
+        #     cde = ConsumerDataExt()
+        #     cde.ParseFromString(entity.data)
+        #
+        #     data_list[entity.address] = cde
+        #     LOGGER.debug('data: ' + str(cde))
         # # Apply Consent
         # for patient_address, pt in patient_list.items():
         #     LOGGER.debug('patient: ' + str(pt))
@@ -320,6 +328,17 @@ async def get_data(conn, client_key):
         #             e.name = pt_local.name
         #             e.surname = pt_local.surname
         #             ehr_list[claim_address] = e
+        return data_list
+    elif Permission(type=Permission.READ_OWN_DATA) in client.permissions:
+        data_list_address = data_helper.make_data_list_by_consumer_address(client_key)
+        LOGGER.debug('has READ_OWN_DATA permission: ' + str(client_key))
+        data_list_resources = await messaging.get_state_by_address(conn, data_list_address)
+        for entity in data_list_resources.entries:
+            cde = ConsumerDataExt()
+            cde.ParseFromString(entity.data)
+
+            data_list[entity.address] = cde
+            LOGGER.debug('data: ' + str(cde))
         return data_list
     # elif Permission(type=Permission.READ_OWN_PATIENT_DATA) in client.permissions:
     #     ehr_list_ids_address = ehr_helper.make_ehr_list_by_patient_address(client_key)

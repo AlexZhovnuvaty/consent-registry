@@ -9,13 +9,13 @@ module.exports = {
     view: function(vnode) {
         return m(".user-list", Data.list.map(function(data) {
             return m("a.user-list-item",
-                "NAME: " + data.name +
-                "; ID: " + data.id +
+//                "NAME: " + data.name +
+                "ID: " + data.id +
 //                "; CLIENT PKEY: " + data.client_pkey +
                 "; Field 1: " + data.field1 +
                 "; Field 2: " + data.field2 +
                 "; Field 3: " + data.field3 +
-                "; TIMESTAMP: " + ehr.event_time +
+                "; TIMESTAMP: " + data.event_time +
                 ";"
 //                ,
 //                m("div"),

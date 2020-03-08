@@ -14,6 +14,8 @@
 # ------------------------------------------------------------------------------
 from sanic import Blueprint
 from sanic import response
+
+from rest_api.consent_common.protobuf.consent_pb2 import ActionOnAccess
 from rest_api.data_common import transaction as data_transaction
 from rest_api import general, security_messaging
 from rest_api.errors import ApiBadRequest, ApiInternalError
@@ -41,6 +43,23 @@ async def get_all_data(request):
     return response.json(body={'data': data_list_json},
                          headers=general.get_response_headers())
 
+
+@DATA_BP.get('data/consent_request_list')
+async def consent_request_list(request):
+    """Fetches complete details of all Accounts in state"""
+    client_key = general.get_request_key_header(request)
+    consent_list = \
+        await security_messaging.get_consent_request_list(request.app.config.VAL_CONN, client_key)
+    consent_list_json = []
+    for address, con in consent_list.items():
+        consent_list_json.append({
+            'src_pkey': con.src_pkey,
+            'dest_pkey': con.dest_pkey,
+            'action_type': ActionOnAccess(con.action_type).name
+        })
+
+    return response.json(body={'data': consent_list_json},
+                         headers=general.get_response_headers())
 
 # @EHRS_BP.get('ehrs/pre_screening_data')
 # async def get_screening_data(request):
@@ -103,7 +122,7 @@ async def add_data(request):
 
     try:
         await security_messaging.check_batch_status(
-            request.app.config.EHR_VAL_CONN, [batch_id])
+            request.app.config.VAL_CONN, [batch_id])
     except (ApiBadRequest, ApiInternalError) as err:
         # await auth_query.remove_auth_entry(
         #     request.app.config.DB_CONN, request.json.get('email'))

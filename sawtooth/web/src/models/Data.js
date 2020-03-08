@@ -2,7 +2,7 @@ var m = require("mithril")
 
 var Data = {
     list: [],
-//    sharedDataList: [],
+    consentRequestList: [],
     error: "",
     loadList: function(clientKey) {
         return m.request({
@@ -20,6 +20,25 @@ var Data = {
             console.log(e)
             Data.error = e.message
             Data.list = []
+        })
+    },
+
+    loadConsentRequestList: function(clientKey) {
+        return m.request({
+            method: "GET",
+            url: "/api/data/consent_request_list",
+            headers: {
+                'ClientKey': clientKey
+            }
+        })
+        .then(function(result) {
+            Data.error = ""
+            Data.consentRequestList = result.data
+        })
+        .catch(function(e) {
+            console.log(e)
+            Data.error = e.message
+            Data.consentRequestList = []
         })
     },
 

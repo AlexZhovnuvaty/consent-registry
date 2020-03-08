@@ -1,16 +1,23 @@
 var m = require("mithril")
+var Data = require("../models/Data")
 var Consumer = require("../models/Consumer")
 
-var qrcodeurl = ''
+//var qrcodeurl = ''
 
 module.exports = {
     oninit:
         function(vnode){
-            Consumer.loadList(vnode.attrs.client_key)
+            Data.loadConsentRequestList(vnode.attrs.client_key)
         },
     view: function(vnode) {
-        return m(".user-list", Consumer.list.map(function(consumer) {
-            return m("a.user-list-item", "PUBLIC KEY: " + consumer.public_key + "; NAME: " + consumer.name,
+//        return m(".user-list", Clinic.list.map(function(clinic) {
+//            return m("a.user-list-item", clinic.name) // + " " + clinic.permissions)
+//        }),
+//        m("label.error", Clinic.error))
+        return m(".user-list", Data.consentRequestList.map(function(consent_request) {
+            return m("a.user-list-item", "SRC PUBLIC KEY: " + consent_request.src_pkey +
+                                        "; DEST PUBLIC KEY: " + consent_request.dest_pkey +
+                                        "; STATUS: " + consent_request.action_type,
 //                    m("div"),
 //                    m("button", {
 //                        onclick: function() {
@@ -32,21 +39,21 @@ module.exports = {
                     m("div"),
                     m("button", {
                         onclick: function() {
-                            Consumer.request_consent(consumer.public_key, vnode.attrs.client_key)
+                            Consumer.approve_request(consent_request.dest_pkey, vnode.attrs.client_key)
                         }
-                    }, 'Send Consent Request'),
-//                    m("div"),
-//                    m("button", {
-//                        onclick: function() {
-//                            Consumer.revoke_data_processing(hospital.public_key, vnode.attrs.client_key)
-//                        }
-//                    }, 'Revoke Data Processing Permission'),
-//                    m("div"),
-//                    m("button", {
-//                        onclick: function() {
-//                            Hospital.grant_3rd_party_access(hospital.public_key, vnode.attrs.client_key)
-//                        }
-//                    }, 'Grant 3rd Party Access'),
+                    }, 'Approve Consent Request'),
+                    m("div"),
+                    m("button", {
+                        onclick: function() {
+                            Consumer.decline_request(consent_request.dest_pkey, vnode.attrs.client_key)
+                        }
+                    }, 'Decline Consent Request'),
+                    m("div"),
+                    m("button", {
+                        onclick: function() {
+                            Consumer.revoke_request(consent_request.dest_pkey, vnode.attrs.client_key)
+                        }
+                    }, 'Revoke Consent Request'),
 //                    m("div"),
 //                    m("button", {
 //                        onclick: function() {
@@ -91,8 +98,8 @@ module.exports = {
 //                    Investigator.import_screening_data(Hospital.sharedDataList, vnode.attrs.client_key)
 //                }
 //            }, 'Import Screening Data'),
-            m("div"),
-            m("img", {src: qrcodeurl}),
-            m("label.error", Consumer.error))
+//            m("div"),
+//            m("img", {src: qrcodeurl}),
+            m("label.error", Data.error))
     }
 }

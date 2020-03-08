@@ -7,7 +7,7 @@ module.exports = {
             Academic.loadList(vnode.attrs.client_key)
         },
     view: function() {
-        return m(".user-list", Academic.list.map(function(patient) {
+        return m(".user-list", Academic.list.map(function(academic) {
             return m("a.user-list-item",
                 "PUBLIC KEY: " + academic.public_key +
                 "; NAME: " + academic.name)

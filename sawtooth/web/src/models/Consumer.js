@@ -49,6 +49,27 @@ var Consumer = {
         })
     },
 
+    request_consent: function(consumerPKey, clientKey) {
+        return m.request({
+            method: "GET",
+            url: "/api/academic/request_consent/" + consumerPKey,
+            headers: {
+                'ClientKey': clientKey
+            }
+//            data: Doctor.current,
+//            useBody: true,
+//            withCredentials: true,
+        })
+        .then(function(items) {
+//            Data.todos.list = items
+            Consumer.error = ""
+        })
+        .catch(function(e) {
+            console.log(e)
+            Consumer.error = e.message
+        })
+    },
+
     approve_request: function(academicPKey, clientKey) {
         return m.request({
             method: "GET",

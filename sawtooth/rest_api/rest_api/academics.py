@@ -25,22 +25,22 @@ async def get_all_academics(request):
                          headers=general.get_response_headers())
 
 
-@ACADEMICS_BP.get('academic/consent_request_list')
-async def consent_request_list(request):
-    """Fetches complete details of all Accounts in state"""
-    client_key = general.get_request_key_header(request)
-    consent_list = \
-        await security_messaging.get_consent_request_list(request.app.config.VAL_CONN, client_key)
-    consent_list_json = []
-    for address, con in consent_list.items():
-        consent_list_json.append({
-            'src_pkey': con.src_pkey,
-            'dest_pkey': con.dest_pkey,
-            'action_type': con.action_type
-        })
-
-    return response.json(body={'data': consent_list_json},
-                         headers=general.get_response_headers())
+# @ACADEMICS_BP.get('academic/consent_request_list')
+# async def consent_request_list(request):
+#     """Fetches complete details of all Accounts in state"""
+#     client_key = general.get_request_key_header(request)
+#     consent_list = \
+#         await security_messaging.get_consent_request_list(request.app.config.VAL_CONN, client_key)
+#     consent_list_json = []
+#     for address, con in consent_list.items():
+#         consent_list_json.append({
+#             'src_pkey': con.src_pkey,
+#             'dest_pkey': con.dest_pkey,
+#             'action_type': con.action_type
+#         })
+#
+#     return response.json(body={'data': consent_list_json},
+#                          headers=general.get_response_headers())
 
 
 @ACADEMICS_BP.post('academic')

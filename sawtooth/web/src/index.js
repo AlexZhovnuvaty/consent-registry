@@ -10,9 +10,10 @@ var ConsumerForm = require("./views/ConsumerForm")
 var DataList = require("./views/DataList")
 var DataForm = require("./views/DataForm")
 //var PreScreeningCheckForm = require("./views/PreScreeningCheck")
-//var InformConsentRequestList = require("./views/InformConsentRequestList")
+var ConsumerConsentRequestList = require("./views/ConsumerConsentRequestList")
+var AcademicConsentRequestList = require("./views/AcademicConsentRequestList")
 var ConsumerActionsList = require("./views/ConsumerActionsList")
-var AcademicActionsList = require("./views/ConsumerActionsList")
+var AcademicActionsList = require("./views/AcademicActionsList")
 //var InvestigatorActionsList = require("./views/InvestigatorActionsList")
 var Layout = require("./views/Layout")
 //var Login = require("./views/Login")
@@ -44,11 +45,16 @@ m.route(document.body, "/consumer", {
             return m(Layout, m(DataList, vnode.attrs))
         }
     },
-//    "/consent_request_list": {
-//        render: function(vnode) {
-//            return m(Layout, m(InformConsentRequestList, vnode.attrs))
-//        }
-//    },
+    "/consumer/consent_request_list": {
+        render: function(vnode) {
+            return m(Layout, m(ConsumerConsentRequestList, vnode.attrs))
+        }
+    },
+    "/academic/consent_request_list": {
+        render: function(vnode) {
+            return m(Layout, m(AcademicConsentRequestList, vnode.attrs))
+        }
+    },
     "/data/new/": {
         render: function(vnode) {
             return m(Layout, m(DataForm, vnode.attrs))

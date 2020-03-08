@@ -98,7 +98,6 @@ def create_consumer_client(txn_signer, batch_signer):
     permissions = [Permission(type=Permission.GET_CONSUMERS_LIST),
                    Permission(type=Permission.ADD_DATA),
                    Permission(type=Permission.READ_OWN_DATA),
-                   Permission(type=Permission.READ_DATA),
                    Permission(type=Permission.GET_REQUESTS_LIST),
                    Permission(type=Permission.APPROVE_CONSENT),
                    Permission(type=Permission.DECLINE_CONSENT),
