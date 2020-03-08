@@ -330,17 +330,21 @@ async def get_data(conn, client_key):
         #             ehr_list[claim_address] = e
         return data_list
     elif Permission(type=Permission.READ_OWN_DATA) in client.permissions:
-        data_list_address = data_helper.make_data_list_by_consumer_address(client_key)
+        data_id_list_address = data_helper.make_data_list_by_consumer_address(client_key)
         LOGGER.debug('has READ_OWN_DATA permission: ' + str(client_key))
-        data_list_resources = await messaging.get_state_by_address(conn, data_list_address)
-        for entity in data_list_resources.entries:
-            entity_data_decode = entity.data.decode()
-            LOGGER.debug('entity_data_decode: ' + str(entity_data_decode))
-            cde = ConsumerDataExt()
-            cde.ParseFromString(entity.data)
-            LOGGER.debug('data: ' + str(cde))
-
-            data_list[entity.address] = cde
+        data_id_list_resources = await messaging.get_state_by_address(conn, data_id_list_address)
+        for entity in data_id_list_resources.entries:
+            data_id = entity.data.decode()
+            data_address = data_helper.make_data_address(data_id)
+            LOGGER.debug('get data: ' + str(data_address))
+            data_resources = await messaging.get_state_by_address(conn, data_address)
+            for entity2 in data_resources.entries:
+                entity_data_decode = entity2.data.decode()
+                LOGGER.debug('entity_data_decode: ' + str(entity_data_decode))
+                cde = ConsumerDataExt()
+                cde.ParseFromString(entity2.data)
+                LOGGER.debug('data: ' + str(cde))
+                data_list[entity.address] = cde
         return data_list
     # elif Permission(type=Permission.READ_OWN_PATIENT_DATA) in client.permissions:
     #     ehr_list_ids_address = ehr_helper.make_ehr_list_by_patient_address(client_key)
