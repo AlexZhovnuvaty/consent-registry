@@ -79,7 +79,7 @@ async def register_consumer(request):
                          headers=general.get_response_headers())
 
 
-@CONSUMERS_BP.get('consumer/approve_consent/<academic_pkey>')
+@CONSUMERS_BP.get('consumer/approve_request/<academic_pkey>')
 async def approve_academic_request(request, academic_pkey):
     """Updates auth information for the authorized account"""
     consumer_key = general.get_request_key_header(request)

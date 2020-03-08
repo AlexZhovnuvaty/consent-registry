@@ -113,24 +113,24 @@ services:
       - validator
     entrypoint: devmode-engine-rust -v -C tcp://validator:5050
 
-#  web-app:
-#    build:
-#      context: .
-#      dockerfile: web/Dockerfile
-#    image: web-app
-#    user: "node"
-#    container_name: web-app
-#    volumes:
-#      - ./web:/home/node/app
-#      - /home/node/app/node_modules
-#    expose:
-#      - 8080
-#    ports:
-#      - '8041:8080'
-#    depends_on:
-#      - rest-api
-#    command: |
-#      sh -c "
-#        echo '--- Starting web-app by docker-compose---' &&
-#        npm start
-#      "
+  web-app:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    image: web-app
+    user: "node"
+    container_name: web-app
+    volumes:
+      - ./web:/home/node/app
+      - /home/node/app/node_modules
+    expose:
+      - 8080
+    ports:
+      - '8041:8080'
+    depends_on:
+      - rest-api
+    command: |
+      sh -c "
+        echo '--- Starting web-app by docker-compose---' &&
+        npm start
+      "
