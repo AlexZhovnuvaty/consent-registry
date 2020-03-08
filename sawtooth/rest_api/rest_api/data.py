@@ -55,7 +55,7 @@ async def consent_request_list(request):
         consent_list_json.append({
             'src_pkey': con.src_pkey,
             'dest_pkey': con.dest_pkey,
-            'action_type': ActionOnAccess.Name(con.action_type)
+            'action_type': ActionOnAccess.ActionType.Name(con.action_type)
         })
 
     return response.json(body={'data': consent_list_json},

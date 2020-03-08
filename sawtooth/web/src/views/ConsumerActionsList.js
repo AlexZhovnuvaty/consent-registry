@@ -17,7 +17,7 @@ module.exports = {
             m("a.user-list-item", {href: "/academic_list/?client_key=" + Client.list['consumer'], oncreate: m.route.link}, "Academic List"),
             m("a.user-list-item", "---"),
             m("a.user-list-item", {href: "/consumer/new/", oncreate: m.route.link}, "New Consumer"),
-            m("a.user-list-item", {href: "/consumer_list/?client_key=" + Client.list['consumer'], oncreate: m.route.link}, "Consumer List"),
+            m("a.user-list-item", {href: "/consumer/consumer_list/?client_key=" + Client.list['consumer'], oncreate: m.route.link}, "Consumer List"),
             m("a.user-list-item", "---"),
             m("a.user-list-item", {href: "/data/new/?client_key=" + Client.list['consumer'], oncreate: m.route.link}, "Add Data"),
             m("a.user-list-item", {href: "/data_list/?client_key=" + Client.list['consumer'], oncreate: m.route.link}, "Data List"),

@@ -29,12 +29,12 @@ module.exports = {
 //                            Hospital.revoke_read_ehr(hospital.public_key, vnode.attrs.client_key)
 //                        }
 //                    }, 'Revoke Read EHR Access'),
-//                    m("div"),
-//                    m("button", {
-//                        onclick: function() {
-//                            Consumer.request_consent(consumer.public_key, vnode.attrs.client_key)
-//                        }
-//                    }, 'Send Consent Request'),
+                    m("div"),
+                    m("button", {
+                        onclick: function() {
+                            Consumer.request_consent(consumer.public_key, vnode.attrs.client_key)
+                        }
+                    }, 'Send Consent Request'),
 //                    m("div"),
 //                    m("button", {
 //                        onclick: function() {

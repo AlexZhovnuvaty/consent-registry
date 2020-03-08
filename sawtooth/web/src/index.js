@@ -3,6 +3,7 @@ var m = require("mithril")
 var AcademicList = require("./views/AcademicList")
 var AcademicForm = require("./views/AcademicForm")
 var ConsumerList = require("./views/ConsumerList")
+var ConsumerListAsAcademic = require("./views/ConsumerListAsAcademic")
 var ConsumerForm = require("./views/ConsumerForm")
 //var InvestigatorList = require("./views/InvestigatorList")
 //var InvestigatorForm = require("./views/InvestigatorForm")
@@ -30,7 +31,12 @@ m.route(document.body, "/consumer", {
             return m(Layout, m(AcademicForm))
         }
     },
-    "/consumer_list/": {
+    "/academic/consumer_list/": {
+        render: function(vnode) {
+            return m(Layout, m(ConsumerListAsAcademic, vnode.attrs))
+        }
+    },
+    "/consumer/consumer_list/": {
         render: function(vnode) {
             return m(Layout, m(ConsumerList, vnode.attrs))
         }

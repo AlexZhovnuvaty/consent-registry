@@ -301,14 +301,20 @@ async def get_data(conn, client_key):
         for address, cn in consumers_with_consent.items():
             LOGGER.debug('consumer with consent: ' + str(cn))
 
-            data_list_address = data_helper.make_data_list_by_consumer_address(cn.src_pkey)
-            data_list_resources = await messaging.get_state_by_address(conn, data_list_address)
-            for entity in data_list_resources.entries:
-                cde = ConsumerDataExt()
-                cde.ParseFromString(entity.data)
-
-                data_list[entity.address] = cde
-                LOGGER.debug('data: ' + str(cde))
+            data_id_list_address = data_helper.make_data_list_by_consumer_address(cn.src_pkey)
+            data_id_list_resources = await messaging.get_state_by_address(conn, data_id_list_address)
+            for entity in data_id_list_resources.entries:
+                data_id = entity.data.decode()
+                data_address = data_helper.make_data_address(data_id)
+                LOGGER.debug('get data: ' + str(data_address))
+                data_resources = await messaging.get_state_by_address(conn, data_address)
+                for entity2 in data_resources.entries:
+                    entity_data_decode = entity2.data.decode()
+                    LOGGER.debug('entity_data_decode: ' + str(entity_data_decode))
+                    cde = ConsumerDataExt()
+                    cde.ParseFromString(entity2.data)
+                    LOGGER.debug('data: ' + str(cde))
+                    data_list[entity2.address] = cde
 
         # data_list_resources = await messaging.get_state_by_address(conn, data_list_address)
         # for entity in data_list_resources.entries:
@@ -344,7 +350,7 @@ async def get_data(conn, client_key):
                 cde = ConsumerDataExt()
                 cde.ParseFromString(entity2.data)
                 LOGGER.debug('data: ' + str(cde))
-                data_list[entity.address] = cde
+                data_list[entity2.address] = cde
         return data_list
     # elif Permission(type=Permission.READ_OWN_PATIENT_DATA) in client.permissions:
     #     ehr_list_ids_address = ehr_helper.make_ehr_list_by_patient_address(client_key)

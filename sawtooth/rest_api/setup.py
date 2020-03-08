@@ -30,7 +30,7 @@ setup(
         'colorlog',
         'protobuf',
         'sawtooth-sdk',
-        'sawtooth-signing',
+        'secp256k1',
         # 'Crypto',
         'requests',
         'sanic',
