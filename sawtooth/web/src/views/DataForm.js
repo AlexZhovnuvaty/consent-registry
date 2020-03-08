@@ -20,18 +20,18 @@ module.exports = {
                 oninput: m.withAttr("value", function(value) {Data.current.id = value}),
                 value: Data.current.id
             }),
-            m("label.label", "Field 1"),
-            m("input.input[placeholder=Field 1]", {
+            m("label.label", "Height"),
+            m("input.input[placeholder=Height]", {
                 oninput: m.withAttr("value", function(value) {Data.current.field1 = value}),
                 value: Data.current.field1
             }),
-            m("label.label", "Field 2"),
-            m("input.input[placeholder=Field 2]", {
+            m("label.label", "Weight"),
+            m("input.input[placeholder=Weight]", {
                 oninput: m.withAttr("value", function(value) {Data.current.field2 = value}),
                 value: Data.current.field2
             }),
-            m("label.label", "Field 3"),
-            m("input.input[placeholder=Field 3]", {
+            m("label.label", "Age"),
+            m("input.input[placeholder=Age]", {
                 oninput: m.withAttr("value", function(value) {Data.current.field3 = value}),
                 value: Data.current.field3
             }),

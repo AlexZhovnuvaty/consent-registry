@@ -12,9 +12,9 @@ module.exports = {
 //                "NAME: " + data.name +
                 "ID: " + data.id +
 //                "; CLIENT PKEY: " + data.client_pkey +
-                "; Field 1: " + data.field1 +
-                "; Field 2: " + data.field2 +
-                "; Field 3: " + data.field3 +
+                "; Height: " + data.field1 +
+                "; Weight: " + data.field2 +
+                "; Age: " + data.field3 +
                 "; TIMESTAMP: " + data.event_time +
                 ";"
 //                ,
